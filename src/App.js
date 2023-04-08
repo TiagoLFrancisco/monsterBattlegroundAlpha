@@ -21,7 +21,8 @@ const monsters = [
 ];
 
 function App() {
-  const [playerHealth, setPlayerHealth] = useState(100);
+  const [playerMaxHealth, setPlayerMaxHealth] = useState(100);
+  const [playerHealth, setPlayerHealth] = useState(playerMaxHealth);
   const [playerDamage, setPlayerDamage] = useState(0);
   const [playerLevel, setPlayerLevel] = useState(1);
   const [currentMonster, setCurrentMonster] = useState(monsters[0]);
@@ -86,11 +87,21 @@ function App() {
   };
 
   const handleRestart = () => {
-    setCurrentMonster(monsters[Math.floor(Math.random() * monsters.length)]);
-    setPlayerHealth(100);
-    setMonsterHealth(currentMonster.health);
+    setPlayerMaxHealth(100);
+    setPlayerHealth(playerMaxHealth);
+    setPlayerDamage(0);
+    setPlayerLevel(1);
+    setCurrentMonster(monsters[0]);
+    setMonsterHealth(monsters[0].health);
+    setMonsterDamage(0);
+    setGameMessage(
+      "A wild " +
+        currentMonster.name +
+        " appeared in front of you! Get your weapons ready!"
+    );
     setDefeatedMonsters(0);
-    setGameMessage("A wild " + currentMonster.name + " appeared!");
+    setPlayerDeaths(0);
+    setCombatLog([]);
   };
 
   const handleHeal = () => {
@@ -106,6 +117,7 @@ function App() {
 
   const handleClearChat = () => {
     setCombatLog([]);
+    setGameMessage("Chat has been cleared.");
   };
 
   return (
