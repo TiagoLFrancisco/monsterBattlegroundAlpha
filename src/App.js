@@ -21,12 +21,15 @@ const monsters = [
 ];
 
 function App() {
-  const [playerHealth, setPlayerHealth] = useState(10);
+  const [playerHealth, setPlayerHealth] = useState(100);
+  const [playerDamage, setPlayerDamage] = useState(0);
   const [currentMonster, setCurrentMonster] = useState(monsters[0]);
   const [monsterHealth, setMonsterHealth] = useState(currentMonster.health);
-  const [playerDamage, setPlayerDamage] = useState(0);
+  const [monsterDamage, setMonsterDamage] = useState(0);
   const [gameMessage, setGameMessage] = useState(
-    "A wild " + currentMonster.name + " appeared!"
+    "A wild " +
+      currentMonster.name +
+      " appeared in front of you! Get your weapons ready!"
   );
   const [defeatedMonsters, setDefeatedMonsters] = useState(0);
   const [playerDeaths, setPlayerDeaths] = useState(0);
@@ -40,19 +43,14 @@ function App() {
     const damageToPlayer =
       Math.floor(Math.random() * currentMonster.damage) + 1;
     setPlayerHealth(playerHealth - damageToPlayer);
+    setMonsterDamage(damageToPlayer);
 
     if (monsterHealth - damageToMonster <= 0) {
       setDefeatedMonsters(defeatedMonsters + 1);
-      setGameMessage(
-        "You defeated the " +
-          currentMonster.name +
-          "! The next target has appeared!"
-      );
+      setGameMessage("You defeated the" + currentMonster.name + "!");
 
-      //monster killed shows on combat log
-      const logKillEntry = `You killed the ${currentMonster.name} !`;
+      const logKillEntry = `You defeated the ${currentMonster.name}!`;
       setCombatLog([...combatLog, logKillEntry]);
-
       //new monster
       const nextMonsterIndex = Math.floor(Math.random() * monsters.length);
       setCurrentMonster(monsters[nextMonsterIndex]);
@@ -60,11 +58,11 @@ function App() {
     } else if (playerHealth - damageToPlayer <= 0) {
       setPlayerDeaths(playerDeaths + 1);
       setGameMessage(
-        "You have been defeated by " + currentMonster.name + "! GAME OVER !"
+        "You were defeated by the " + currentMonster.name + "! GAME OVER !"
       );
 
       //player death shows on combat log
-      const logPlayerDeath = `You have been defeated by the ${currentMonster.name} ! Your health has been fully restored! Good Luck!`;
+      const logPlayerDeath = `You were defeated by the ${currentMonster.name} ! Your health has been fully restored! Good Luck!`;
       setCombatLog([...combatLog, logPlayerDeath]);
 
       handleRestart();
@@ -107,12 +105,12 @@ function App() {
         <h2>{currentMonster.name}</h2>
         <p>Level: {currentMonster.level}</p>
         <p>Health: {monsterHealth}</p>
-        <p>Damage: {currentMonster.damage}</p>
+        <p>Atack Damage: {monsterDamage}</p>
       </div>
       <div className="player-info">
         <h2>Player</h2>
         <p>Health: {playerHealth}</p>
-        <p>Damage: {playerDamage}</p>
+        <p>Atack Damage: {playerDamage}</p>
         <p>Monsters Defeated: {defeatedMonsters}</p>
         <p>Player Deaths: {playerDeaths}</p>
       </div>
