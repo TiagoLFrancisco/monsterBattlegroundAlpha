@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 
 const monsters = [
@@ -21,7 +21,7 @@ const monsters = [
 ];
 
 function App() {
-  const [playerMaxHealth, setPlayerMaxHealth] = useState(100);
+  const [playerMaxHealth, setPlayerMaxHealth] = useState(200);
   const [playerHealth, setPlayerHealth] = useState(playerMaxHealth);
   const [playerDamage, setPlayerDamage] = useState(0);
   const [playerLevel, setPlayerLevel] = useState(1);
@@ -37,8 +37,23 @@ function App() {
       " appeared in front of you! Get your weapons ready!"
   );
 
+  useEffect(() => {
+    if (defeatedMonsters % 5 === 0 && defeatedMonsters !== 0) {
+      setPlayerLevel(playerLevel + 1);
+      setGameMessage(
+        "You leveled up! Congratulations! You are now level " +
+          (playerLevel + 1) +
+          " !"
+      );
+      const logLevelUp = `You Leveled Up! Congratulations! You are now level ${
+        playerLevel + 1
+      } !`;
+      setCombatLog([...combatLog, logLevelUp]);
+    }
+  }, [defeatedMonsters]);
+
   const handleAttack = () => {
-    const damageToMonster = Math.floor(Math.random() * 6) + 1;
+    const damageToMonster = Math.floor(Math.random() * 10) + 1;
     setMonsterHealth(monsterHealth - damageToMonster);
     setPlayerDamage(damageToMonster);
 
@@ -50,7 +65,6 @@ function App() {
     if (monsterHealth - damageToMonster <= 0) {
       setDefeatedMonsters(defeatedMonsters + 1);
       setGameMessage("You defeated the" + currentMonster.name + "!");
-
       const logKillEntry = `You defeated the ${currentMonster.name}!`;
       setCombatLog([...combatLog, logKillEntry]);
       //new monster
