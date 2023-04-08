@@ -23,6 +23,7 @@ const monsters = [
 function App() {
   const [playerHealth, setPlayerHealth] = useState(100);
   const [playerDamage, setPlayerDamage] = useState(0);
+  const [playerLevel, setPlayerLevel] = useState(1);
   const [currentMonster, setCurrentMonster] = useState(monsters[0]);
   const [monsterHealth, setMonsterHealth] = useState(currentMonster.health);
   const [monsterDamage, setMonsterDamage] = useState(0);
@@ -93,9 +94,14 @@ function App() {
   };
 
   const handleHeal = () => {
-    const newHealth = playerHealth + Math.floor(Math.random() * 11) + 5;
+    const healingAmount = Math.floor(Math.random() * 11) + 5;
+    const newHealth = playerHealth + healingAmount;
     setPlayerHealth(newHealth > 100 ? 100 : newHealth);
-    setGameMessage("You were healed by a friendly cleric!");
+    setGameMessage(
+      "You were healed by a friendly cleric for " + healingAmount + " points!"
+    );
+    const logHealing = `You were healed by a friendly cleric for ${healingAmount} points! `;
+    setCombatLog([...combatLog, logHealing]);
   };
 
   return (
@@ -109,8 +115,10 @@ function App() {
       </div>
       <div className="player-info">
         <h2>Player</h2>
+        <p>Level: {playerLevel}</p>
         <p>Health: {playerHealth}</p>
         <p>Atack Damage: {playerDamage}</p>
+        <br></br>
         <p>Monsters Defeated: {defeatedMonsters}</p>
         <p>Player Deaths: {playerDeaths}</p>
       </div>
