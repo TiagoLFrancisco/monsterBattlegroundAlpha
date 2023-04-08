@@ -21,7 +21,7 @@ const monsters = [
 ];
 
 function App() {
-  const [playerHealth, setPlayerHealth] = useState(100);
+  const [playerHealth, setPlayerHealth] = useState(10);
   const [currentMonster, setCurrentMonster] = useState(monsters[0]);
   const [monsterHealth, setMonsterHealth] = useState(currentMonster.health);
   const [playerDamage, setPlayerDamage] = useState(0);
@@ -29,6 +29,7 @@ function App() {
     "A wild " + currentMonster.name + " appeared!"
   );
   const [defeatedMonsters, setDefeatedMonsters] = useState(0);
+  const [playerDeaths, setPlayerDeaths] = useState(0);
   const [combatLog, setCombatLog] = useState([]);
 
   const handleAttack = () => {
@@ -56,6 +57,17 @@ function App() {
       const nextMonsterIndex = Math.floor(Math.random() * monsters.length);
       setCurrentMonster(monsters[nextMonsterIndex]);
       setMonsterHealth(monsters[nextMonsterIndex].health);
+    } else if (playerHealth - damageToPlayer <= 0) {
+      setPlayerDeaths(playerDeaths + 1);
+      setGameMessage(
+        "You have been defeated by " + currentMonster.name + "! GAME OVER !"
+      );
+
+      //player death shows on combat log
+      const logPlayerDeath = `You have been defeated by the ${currentMonster.name} ! Your health has been fully restored! Good Luck!`;
+      setCombatLog([...combatLog, logPlayerDeath]);
+
+      handleRestart();
     } else {
       setGameMessage(
         "You attacked the " +
@@ -68,6 +80,7 @@ function App() {
           damageToPlayer +
           " damage to you."
       );
+
       const logEntry = `You attacked the ${currentMonster.name} and dealt ${damageToMonster} damage. The ${currentMonster.name} attacked back and dealt ${damageToPlayer} damage to you.`;
       setCombatLog([...combatLog, logEntry]);
     }
@@ -101,6 +114,7 @@ function App() {
         <p>Health: {playerHealth}</p>
         <p>Damage: {playerDamage}</p>
         <p>Monsters Defeated: {defeatedMonsters}</p>
+        <p>Player Deaths: {playerDeaths}</p>
       </div>
       <button onClick={handleAttack}>Attack</button>
       <button onClick={handleHeal}>Heal</button>
