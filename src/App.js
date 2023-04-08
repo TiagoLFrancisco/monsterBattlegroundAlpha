@@ -104,6 +104,10 @@ function App() {
     setCombatLog([...combatLog, logHealing]);
   };
 
+  const handleClearChat = () => {
+    setCombatLog([]);
+  };
+
   return (
     <div className="App">
       <h1>Monster Battle</h1>
@@ -125,6 +129,7 @@ function App() {
       <button onClick={handleAttack}>Attack</button>
       <button onClick={handleHeal}>Heal</button>
       <button onClick={handleRestart}>Restart</button>
+      <button onClick={handleClearChat}>Clear Chat</button>
       <p>{gameMessage}</p>
       <div className="combat-log">
         <h2>Combat Log</h2>
