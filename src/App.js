@@ -25,17 +25,17 @@ function App() {
   const [playerHealth, setPlayerHealth] = useState(playerMaxHealth);
   const [playerDamage, setPlayerDamage] = useState(0);
   const [playerLevel, setPlayerLevel] = useState(1);
+  const [playerDeaths, setPlayerDeaths] = useState(0);
   const [currentMonster, setCurrentMonster] = useState(monsters[0]);
   const [monsterHealth, setMonsterHealth] = useState(currentMonster.health);
   const [monsterDamage, setMonsterDamage] = useState(0);
+  const [defeatedMonsters, setDefeatedMonsters] = useState(0);
+  const [combatLog, setCombatLog] = useState([]);
   const [gameMessage, setGameMessage] = useState(
     "A wild " +
       currentMonster.name +
       " appeared in front of you! Get your weapons ready!"
   );
-  const [defeatedMonsters, setDefeatedMonsters] = useState(0);
-  const [playerDeaths, setPlayerDeaths] = useState(0);
-  const [combatLog, setCombatLog] = useState([]);
 
   const handleAttack = () => {
     const damageToMonster = Math.floor(Math.random() * 6) + 1;
@@ -63,7 +63,6 @@ function App() {
         "You were defeated by the " + currentMonster.name + "! GAME OVER !"
       );
 
-      //player death shows on combat log
       const logPlayerDeath = `You were defeated by the ${currentMonster.name} ! Your health has been fully restored! Good Luck!`;
       setCombatLog([...combatLog, logPlayerDeath]);
 
@@ -94,14 +93,14 @@ function App() {
     setCurrentMonster(monsters[0]);
     setMonsterHealth(monsters[0].health);
     setMonsterDamage(0);
+    setDefeatedMonsters(0);
+    setPlayerDeaths(0);
+    setCombatLog([]);
     setGameMessage(
       "A wild " +
         currentMonster.name +
         " appeared in front of you! Get your weapons ready!"
     );
-    setDefeatedMonsters(0);
-    setPlayerDeaths(0);
-    setCombatLog([]);
   };
 
   const handleHeal = () => {
