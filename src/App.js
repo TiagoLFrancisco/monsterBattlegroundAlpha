@@ -1,24 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-
-const monsters = [
-  { name: "Goblin", level: 1, health: 20, damage: 4 },
-  { name: "Kobold", level: 1, health: 15, damage: 3 },
-  { name: "Orc", level: 1, health: 25, damage: 5 },
-  { name: "Giant Rat", level: 1, health: 10, damage: 2 },
-  { name: "Skeleton", level: 1, health: 30, damage: 6 },
-  { name: "Zombie", level: 1, health: 22, damage: 3 },
-  { name: "Giant Spider", level: 1, health: 25, damage: 5 },
-  { name: "Bandit", level: 1, health: 27, damage: 4 },
-  { name: "Gnoll", level: 1, health: 22, damage: 4 },
-  { name: "Giant Crab", level: 1, health: 18, damage: 3 },
-  { name: "Troll", level: 2, health: 40, damage: 8 },
-  { name: "Harpy", level: 2, health: 35, damage: 7 },
-  { name: "Minotaur", level: 3, health: 50, damage: 10 },
-  { name: "Chimera", level: 3, health: 45, damage: 9 },
-  { name: "Dragon", level: 4, health: 75, damage: 12 },
-  { name: "Behemoth", level: 5, health: 90, damage: 15 },
-];
+import { monsters } from "./components/MonstersList";
 
 function App() {
   const [playerMaxHealth, setPlayerMaxHealth] = useState(200);
@@ -120,6 +102,7 @@ function App() {
 
   const handleRestart = () => {
     setPlayerMaxHealth(100);
+    setShowDamage(0);
     setPlayerHealth(playerMaxHealth);
     setPlayerDamage(0);
     setPlayerLevel(1);
