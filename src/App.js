@@ -21,7 +21,7 @@ const monsters = [
 ];
 
 function App() {
-  const [playerMaxHealth, setPlayerMaxHealth] = useState(100);
+  const [playerMaxHealth, setPlayerMaxHealth] = useState(200);
   const [playerHealth, setPlayerHealth] = useState(playerMaxHealth);
   const [playerDamage, setPlayerDamage] = useState(0);
   const [playerLevel, setPlayerLevel] = useState(1);
@@ -172,43 +172,49 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Monster Battle</h1>
-      <div className="monster-info">
-        <h2>{currentMonster.name}</h2>
-        <p>Level: {currentMonster.level}</p>
-        <p>Health: {monsterHealth}</p>
-        {showDamage ? (
-          <p>Attack Damage: {monsterDamage}</p>
-        ) : (
-          <p>This Monster has not attacked you yet!</p>
-        )}
+      <div className="tittle">
+        <h1>Monster Battle</h1>
       </div>
-      <div className="player-info">
-        <h2>Player</h2>
-        <p>Level: {playerLevel}</p>
-        <p>Health: {playerHealth}</p>
-        {showDamage ? (
-          <p>Attack Damage: {playerDamage}</p>
-        ) : (
-          <p>You have not attacked this Monster yet!</p>
-        )}
-        <br></br>
+      <div className="left-panel">
+        <div className="monster-info">
+          <h2>{currentMonster.name}</h2>
+          <p>Level: {currentMonster.level}</p>
+          <p>Health: {monsterHealth}</p>
+          {showDamage ? (
+            <p>Attack Damage: {monsterDamage}</p>
+          ) : (
+            <p>This Monster has not attacked you yet!</p>
+          )}
+        </div>
+        <div className="player-info">
+          <h2>Player</h2>
+          <p>Level: {playerLevel}</p>
+          <p>Health: {playerHealth}</p>
+          {showDamage ? (
+            <p>Attack Damage: {playerDamage}</p>
+          ) : (
+            <p>You have not attacked this Monster yet!</p>
+          )}
+        </div>
+      </div>
+      <div className="right-panel">
         <p>You have defeated {defeatedMonsters} monsters!</p>
         <p>You were defeated {playerDeaths} time!</p>
+
+        <button className="button" onClick={handleAttack}>
+          Attack
+        </button>
+        <button className="button" onClick={handleHeal}>
+          Heal
+        </button>
+        <button className="button" onClick={handleRestart}>
+          Restart
+        </button>
+        <button className="button" onClick={handleClearChat}>
+          Clear Chat
+        </button>
+        <p>{gameMessage}</p>
       </div>
-      <button className="button" onClick={handleAttack}>
-        Attack
-      </button>
-      <button className="button" onClick={handleHeal}>
-        Heal
-      </button>
-      <button className="button" onClick={handleRestart}>
-        Restart
-      </button>
-      <button className="button" onClick={handleClearChat}>
-        Clear Chat
-      </button>
-      <p>{gameMessage}</p>
       <div className="combat-log">
         <h2>Combat Log</h2>
         {combatLog

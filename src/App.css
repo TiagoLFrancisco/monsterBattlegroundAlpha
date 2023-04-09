@@ -1,5 +1,28 @@
 .App {
-  padding-left: 50px;
+  padding-left: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.tittle {
+  flex-basis: 100%;
+  text-align: center;
+}
+
+.left-panel {
+  flex-basis: 40%;
+  text-align: center;
+}
+
+.right-panel {
+  flex-basis: 60%;
+}
+
+.combat-log {
+  text-align: center;
+  margin-top: 20px;
+  flex-basis: 100%;
 }
 
 .button {
