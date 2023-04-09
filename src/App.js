@@ -35,8 +35,14 @@ function App() {
   const [gameMessage, setGameMessage] = useState(
     "A wild " +
       currentMonster.name +
-      " appeared in front of you! Get your weapons ready!"
+      " appeared in front of you! \nGet your weapons ready!"
   );
+
+  useEffect(() => {
+    setGameMessage(
+      `A wild ${currentMonster.name} appeared in front of you! \nGet your weapons ready!`
+    );
+  }, [currentMonster]);
 
   useEffect(() => {
     if (defeatedMonsters % 5 === 0 && defeatedMonsters !== 0) {
@@ -44,7 +50,7 @@ function App() {
       setGameMessage(
         "You leveled up! Congratulations! You are now level " +
           (playerLevel + 1) +
-          " !"
+          " !\n \n"
       );
       const logLevelUp = `You Leveled Up! Congratulations! You are now level ${
         playerLevel + 1
@@ -92,7 +98,7 @@ function App() {
         currentMonster.name +
         " with a " +
         playerDamage +
-        " damage attack!"
+        " damage attack!\n \n"
     );
     const logKillEntry = `You defeated the ${currentMonster.name} with a ${playerDamage} damage attack!`;
     setCombatLog([...combatLog, logKillEntry]);
@@ -109,7 +115,7 @@ function App() {
     setShowDamage(false);
     setPlayerDeaths(playerDeaths + 1);
     setGameMessage(
-      "You were defeated by the " + currentMonster.name + "! GAME OVER !"
+      "You were defeated by the " + currentMonster.name + "! GAME OVER !\n \n"
     );
 
     const logPlayerDeath = `You were defeated by the ${currentMonster.name} ! Your health has been fully restored! Good Luck!`;
@@ -125,7 +131,7 @@ function App() {
         currentMonster.name +
         " and dealt " +
         damageFromPlayer +
-        " damage. The " +
+        " damage. \nThe " +
         currentMonster.name +
         " attacked back and dealt " +
         damageFromMonster +
@@ -150,7 +156,7 @@ function App() {
     setGameMessage(
       "A wild " +
         currentMonster.name +
-        " appeared in front of you! Get your weapons ready!"
+        " appeared in front of you! \nGet your weapons ready!"
     );
   };
 
@@ -159,7 +165,9 @@ function App() {
     const newHealth = playerHealth + healingAmount;
     setPlayerHealth(newHealth > 100 ? 100 : newHealth);
     setGameMessage(
-      "You were healed by a friendly cleric for " + healingAmount + " points!"
+      "You were healed by a friendly cleric for " +
+        healingAmount +
+        " points!\n \n"
     );
     const logHealing = `You were healed by a friendly cleric for ${healingAmount} points! `;
     setCombatLog([...combatLog, logHealing]);
@@ -167,7 +175,7 @@ function App() {
 
   const handleClearChat = () => {
     setCombatLog([]);
-    setGameMessage("Chat has been cleared.");
+    setGameMessage("Chat has been cleared.\n \n");
   };
 
   return (
@@ -198,8 +206,8 @@ function App() {
         </div>
       </div>
       <div className="right-panel">
-        <p>You have defeated {defeatedMonsters} monsters!</p>
-        <p>You were defeated {playerDeaths} time!</p>
+        <p className="game-message">{gameMessage}</p>
+        <br></br>
 
         <button className="button" onClick={handleAttack}>
           Attack
@@ -213,7 +221,8 @@ function App() {
         <button className="button" onClick={handleClearChat}>
           Clear Chat
         </button>
-        <p>{gameMessage}</p>
+        <p>You have defeated {defeatedMonsters} monsters!</p>
+        <p>You were defeated {playerDeaths} time!</p>
       </div>
       <div className="combat-log">
         <h2>Combat Log</h2>

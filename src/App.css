@@ -3,6 +3,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  white-space: pre-line;
 }
 
 .tittle {
@@ -11,12 +12,12 @@
 }
 
 .left-panel {
-  flex-basis: 40%;
+  flex-basis: 42%;
   text-align: center;
 }
 
 .right-panel {
-  flex-basis: 60%;
+  flex-basis: auto;
 }
 
 .combat-log {
@@ -26,5 +27,6 @@
 }
 
 .button {
-  margin: 10px;
+  margin-right: 10px;
+  font-size: large;
 }
