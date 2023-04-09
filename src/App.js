@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import { monsters } from "./components/MonstersList";
+import { handleRestart } from "./handlers/HandleRestart";
+import { handleHeal } from "./handlers/HandleHeal";
+import { handleClearHistory } from "./handlers/HandleClearHistory";
 
 function App() {
   const [playerMaxHealth, setPlayerMaxHealth] = useState(200);
@@ -90,7 +93,22 @@ function App() {
       `You were defeated by the ${currentMonster.name}! GAME OVER !\n \n`
     );
 
-    handleRestart();
+    handleRestart(
+      setPlayerMaxHealth,
+      setShowDamage,
+      setPlayerHealth,
+      setPlayerDamage,
+      setPlayerLevel,
+      setCurrentMonster,
+      setMonsterHealth,
+      setMonsterDamage,
+      setDefeatedMonsters,
+      setCombatLog,
+      setGameMessage,
+      playerMaxHealth,
+      monsters,
+      currentMonster
+    );
   };
 
   const handleNonDefeatScenario = (damageFromPlayer, damageFromMonster) => {
@@ -98,38 +116,6 @@ function App() {
     setGameMessage(
       `You attacked the ${currentMonster.name} and dealt ${damageFromPlayer} attack damage. \nThe ${currentMonster.name} attacked back and dealt ${damageFromMonster} attack damage to you.`
     );
-  };
-
-  const handleRestart = () => {
-    setPlayerMaxHealth(100);
-    setShowDamage(0);
-    setPlayerHealth(playerMaxHealth);
-    setPlayerDamage(0);
-    setPlayerLevel(1);
-    setCurrentMonster(monsters[0]);
-    setMonsterHealth(monsters[0].health);
-    setMonsterDamage(0);
-    setDefeatedMonsters(0);
-    setCombatLog([]);
-    setGameMessage(
-      `A wild ${currentMonster.name} appeared in front of you! \nGet your weapons ready!`
-    );
-  };
-
-  const handleHeal = () => {
-    const healingAmount = Math.floor(Math.random() * 11) + 5;
-    const newHealth = playerHealth + healingAmount;
-    setPlayerHealth(newHealth > 200 ? 200 : newHealth);
-    setGameMessage(
-      `You were healed by a friendly cleric for ${healingAmount} points!\n \n`
-    );
-  };
-
-  const handleClearHistory = () => {
-    setGameMessage("Chat has been cleared.\n Statistics have been reseted. ");
-    setCombatLog([]);
-    setOveralDefeatedMonsters(0);
-    setPlayerDefeats(0);
   };
 
   return (
@@ -170,13 +156,48 @@ function App() {
         <button className="button" onClick={handleAttack}>
           Attack
         </button>
-        <button className="button" onClick={handleHeal}>
+        <button
+          className="button"
+          onClick={() =>
+            handleHeal(playerHealth, setPlayerHealth, setGameMessage)
+          }
+        >
           Heal
         </button>
-        <button className="button" onClick={handleRestart}>
+        <button
+          className="button"
+          onClick={() =>
+            handleRestart(
+              setPlayerMaxHealth,
+              setShowDamage,
+              setPlayerHealth,
+              setPlayerDamage,
+              setPlayerLevel,
+              setCurrentMonster,
+              setMonsterHealth,
+              setMonsterDamage,
+              setDefeatedMonsters,
+              setCombatLog,
+              setGameMessage,
+              playerMaxHealth,
+              monsters,
+              currentMonster
+            )
+          }
+        >
           Restart
         </button>
-        <button className="button" onClick={handleClearHistory}>
+        <button
+          className="button"
+          onClick={() =>
+            handleClearHistory(
+              setGameMessage,
+              setOveralDefeatedMonsters,
+              setPlayerDefeats,
+              setCombatLog
+            )
+          }
+        >
           Clear History
         </button>
         <div className="statistics">
