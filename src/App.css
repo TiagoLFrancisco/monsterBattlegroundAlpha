@@ -1,3 +1,7 @@
 .App {
-  margin-left: 100px;
+  padding-left: 50px;
+}
+
+.button {
+  margin: 10px;
 }
