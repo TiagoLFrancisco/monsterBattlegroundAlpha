@@ -25,37 +25,32 @@ function App() {
   const [playerHealth, setPlayerHealth] = useState(playerMaxHealth);
   const [playerDamage, setPlayerDamage] = useState(0);
   const [playerLevel, setPlayerLevel] = useState(1);
-  const [playerDeaths, setPlayerDeaths] = useState(0);
+  const [playerDefeats, setPlayerDefeats] = useState(0);
   const [currentMonster, setCurrentMonster] = useState(monsters[0]);
   const [monsterHealth, setMonsterHealth] = useState(currentMonster.health);
   const [monsterDamage, setMonsterDamage] = useState(0);
   const [showDamage, setShowDamage] = useState(false);
   const [defeatedMonsters, setDefeatedMonsters] = useState(0);
+  const [overalDefeatedMonsters, setOveralDefeatedMonsters] = useState(0);
   const [combatLog, setCombatLog] = useState([]);
   const [gameMessage, setGameMessage] = useState(
-    "A wild " +
-      currentMonster.name +
-      " appeared in front of you! \nGet your weapons ready!"
+    `A wild ${currentMonster.name} appeared in front of you! \nGet your weapons ready!`
   );
 
   useEffect(() => {
-    setGameMessage(
-      `A wild ${currentMonster.name} appeared in front of you! \nGet your weapons ready!`
-    );
-  }, [currentMonster]);
+    const logEntry = gameMessage;
+    setCombatLog([...combatLog, logEntry]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameMessage]);
 
   useEffect(() => {
     if (defeatedMonsters % 5 === 0 && defeatedMonsters !== 0) {
       setPlayerLevel(playerLevel + 1);
       setGameMessage(
-        "You leveled up! Congratulations! You are now level " +
-          (playerLevel + 1) +
-          " !\n \n"
+        `You leveled up! Congratulations! You are now level ${
+          playerLevel + 1
+        } !\n \n`
       );
-      const logLevelUp = `You Leveled Up! Congratulations! You are now level ${
-        playerLevel + 1
-      } !`;
-      setCombatLog([...combatLog, logLevelUp]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defeatedMonsters]);
@@ -92,16 +87,11 @@ function App() {
 
   const handleMonsterDefeat = () => {
     setDefeatedMonsters(defeatedMonsters + 1);
+    setOveralDefeatedMonsters(overalDefeatedMonsters + 1);
     setShowDamage(false);
     setGameMessage(
-      "You defeated the " +
-        currentMonster.name +
-        " with a " +
-        playerDamage +
-        " damage attack!\n \n"
+      `You defeated the ${currentMonster.name} by dealing ${playerDamage} attack damage!\n \n`
     );
-    const logKillEntry = `You defeated the ${currentMonster.name} with a ${playerDamage} damage attack!`;
-    setCombatLog([...combatLog, logKillEntry]);
     chooseNextMonster();
   };
 
@@ -113,13 +103,10 @@ function App() {
 
   const handlePlayerDefeat = () => {
     setShowDamage(false);
-    setPlayerDeaths(playerDeaths + 1);
+    setPlayerDefeats(playerDefeats + 1);
     setGameMessage(
-      "You were defeated by the " + currentMonster.name + "! GAME OVER !\n \n"
+      `You were defeated by the ${currentMonster.name}! GAME OVER !\n \n`
     );
-
-    const logPlayerDeath = `You were defeated by the ${currentMonster.name} ! Your health has been fully restored! Good Luck!`;
-    setCombatLog([...combatLog, logPlayerDeath]);
 
     handleRestart();
   };
@@ -127,19 +114,8 @@ function App() {
   const handleNonDefeatScenario = (damageFromPlayer, damageFromMonster) => {
     setShowDamage(true);
     setGameMessage(
-      "You attacked the " +
-        currentMonster.name +
-        " and dealt " +
-        damageFromPlayer +
-        " damage. \nThe " +
-        currentMonster.name +
-        " attacked back and dealt " +
-        damageFromMonster +
-        " damage to you."
+      `You attacked the ${currentMonster.name} and dealt ${damageFromPlayer} attack damage. \nThe ${currentMonster.name} attacked back and dealt ${damageFromMonster} attack damage to you.`
     );
-
-    const logEntry = `You attacked the ${currentMonster.name} and dealt ${damageFromPlayer} damage. The ${currentMonster.name} attacked back and dealt ${damageFromMonster} damage to you.`;
-    setCombatLog([...combatLog, logEntry]);
   };
 
   const handleRestart = () => {
@@ -151,38 +127,26 @@ function App() {
     setMonsterHealth(monsters[0].health);
     setMonsterDamage(0);
     setDefeatedMonsters(0);
-    setPlayerDeaths(0);
     setCombatLog([]);
     setGameMessage(
-      "A wild " +
-        currentMonster.name +
-        " appeared in front of you! \nGet your weapons ready!"
+      `A wild ${currentMonster.name} appeared in front of you! \nGet your weapons ready!`
     );
   };
 
   const handleHeal = () => {
     const healingAmount = Math.floor(Math.random() * 11) + 5;
     const newHealth = playerHealth + healingAmount;
-    setPlayerHealth(newHealth > 100 ? 100 : newHealth);
+    setPlayerHealth(newHealth > 200 ? 200 : newHealth);
     setGameMessage(
-      "You were healed by a friendly cleric for " +
-        healingAmount +
-        " points!\n \n"
+      `You were healed by a friendly cleric for ${healingAmount} points!\n \n`
     );
-    const logHealing = `You were healed by a friendly cleric for ${healingAmount} points! `;
-    setCombatLog([...combatLog, logHealing]);
   };
 
-  const handleClearChat = () => {
-    if (combatLog.length > 0) {
-      setCombatLog([]);
-      setGameMessage("Chat has been cleared.\n \n");
-    } else {
-      setCombatLog([]);
-      setGameMessage(
-        "Chat has been cleared.\n (There was nothing in there anyway...)"
-      );
-    }
+  const handleClearHistory = () => {
+    setGameMessage("Chat has been cleared.\n Statistics have been reseted. ");
+    setCombatLog([]);
+    setOveralDefeatedMonsters(0);
+    setPlayerDefeats(0);
   };
 
   return (
@@ -190,32 +154,36 @@ function App() {
       <div className="tittle">
         <h1>Monster Battle</h1>
       </div>
-      <div className="left-panel">
-        <div className="monster-info">
-          <h2>{currentMonster.name}</h2>
-          <p>Level: {currentMonster.level}</p>
-          <p>Health: {monsterHealth}</p>
-          {showDamage ? (
-            <p>Attack Damage: {monsterDamage}</p>
-          ) : (
-            <p>This Monster has not attacked you yet!</p>
-          )}
-        </div>
-        <div className="player-info">
-          <h2>Player</h2>
-          <p>Level: {playerLevel}</p>
-          <p>Health: {playerHealth}</p>
-          {showDamage ? (
-            <p>Attack Damage: {playerDamage}</p>
-          ) : (
-            <p>You have not attacked this Monster yet!</p>
-          )}
+      <div className="pve-panel">
+        <h2 className="h2-tittle">Battle Ground</h2>
+        <div className="pve-board">
+          <div className="monster-info">
+            <h2>{currentMonster.name}</h2>
+            <p>Level: {currentMonster.level}</p>
+            <p>Health: {monsterHealth}</p>
+            {showDamage ? (
+              <p>Attack Damage: {monsterDamage}</p>
+            ) : (
+              <p>This Monster has not attacked you yet!</p>
+            )}
+          </div>
+          <h1 className="versus">VS</h1>
+          <div className="player-info">
+            <h2>Player</h2>
+            <p>Level: {playerLevel}</p>
+            <p>Health: {playerHealth}</p>
+            {showDamage ? (
+              <p>Attack Damage: {playerDamage}</p>
+            ) : (
+              <p>You have not attacked this Monster yet!</p>
+            )}
+          </div>
         </div>
       </div>
-      <div className="right-panel">
+      <div className="menu-panel">
+        <h2 className="h2-tittle">Round Event</h2>
         <p className="game-message">{gameMessage}</p>
-        <br></br>
-
+        <h2 className="h2-tittle">Actions</h2>
         <button className="button" onClick={handleAttack}>
           Attack
         </button>
@@ -225,20 +193,25 @@ function App() {
         <button className="button" onClick={handleRestart}>
           Restart
         </button>
-        <button className="button" onClick={handleClearChat}>
-          Clear Chat
+        <button className="button" onClick={handleClearHistory}>
+          Clear History
         </button>
-        <p>You have defeated {defeatedMonsters} monsters!</p>
-        <p>You were defeated {playerDeaths} time!</p>
+        <div className="statistics">
+          <h2 className="h2-tittle">Statistics</h2>
+          <p>You have defeated {overalDefeatedMonsters} monsters!</p>
+          <p>You were defeated {playerDefeats} time!</p>
+        </div>
       </div>
       <div className="combat-log">
-        <h2>Combat Log</h2>
-        {combatLog
-          .slice(0)
-          .reverse()
-          .map((log, index) => (
-            <p key={index}>{log}</p>
-          ))}
+        <h2 className="h2-tittle">Combat Log</h2>
+        <p className="combat-log-chat">
+          {combatLog
+            .slice(0)
+            .reverse()
+            .map((log, index) => (
+              <p key={index}>{log}</p>
+            ))}
+        </p>
       </div>
     </div>
   );

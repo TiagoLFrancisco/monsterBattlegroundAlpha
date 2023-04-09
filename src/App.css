@@ -1,5 +1,4 @@
 .App {
-  padding-left: 40px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -9,24 +8,58 @@
 .tittle {
   flex-basis: 100%;
   text-align: center;
+  align-self: flex-start;
 }
 
-.left-panel {
-  flex-basis: 42%;
+.pve-panel {
+  flex-basis: 30%;
   text-align: center;
+  align-self: flex-start;
 }
 
-.right-panel {
-  flex-basis: auto;
+.pve-board {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.versus {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.monster-info,
+.player-info {
+  width: 33.33%;
+  overflow-wrap: normal;
+}
+
+.menu-panel {
+  flex-basis: 30%;
+  align-self: flex-start;
 }
 
 .combat-log {
-  text-align: center;
-  margin-top: 20px;
-  flex-basis: 100%;
+  flex-basis: 30%;
+}
+
+.combat-log-chat {
+  height: 600px;
+  overflow-y: scroll;
+  align-self: flex-start;
 }
 
 .button {
   margin-right: 10px;
   font-size: large;
+}
+
+.game-message {
+  margin-top: 40px;
+  margin-bottom: 70px;
+}
+
+.statistics {
+  margin-top: 100px;
 }
