@@ -174,8 +174,15 @@ function App() {
   };
 
   const handleClearChat = () => {
-    setCombatLog([]);
-    setGameMessage("Chat has been cleared.\n \n");
+    if (combatLog.length > 0) {
+      setCombatLog([]);
+      setGameMessage("Chat has been cleared.\n \n");
+    } else {
+      setCombatLog([]);
+      setGameMessage(
+        "Chat has been cleared.\n (There was nothing in there anyway...)"
+      );
+    }
   };
 
   return (
