@@ -1,18 +1,18 @@
 export const handleRestart = (
+  playerMaxHealth,
   setPlayerMaxHealth,
-  setShowDamage,
   setPlayerHealth,
   setPlayerDamage,
   setPlayerLevel,
+  currentMonster,
   setCurrentMonster,
   setMonsterHealth,
   setMonsterDamage,
+  setShowDamage,
   setDefeatedMonsters,
   setCombatLog,
   setGameMessage,
-  playerMaxHealth,
-  monsters,
-  currentMonster
+  monsters
 ) => {
   setPlayerMaxHealth(200);
   setShowDamage(0);
