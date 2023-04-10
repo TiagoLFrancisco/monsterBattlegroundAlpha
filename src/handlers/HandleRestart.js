@@ -1,3 +1,5 @@
+import { monsters } from "../components/MonstersList";
+
 export const handleRestart = (
   playerMaxHealth,
   setPlayerMaxHealth,
@@ -12,7 +14,7 @@ export const handleRestart = (
   setDefeatedMonsters,
   setCombatLog,
   setGameMessage,
-  monsters
+  setIsFirstRound
 ) => {
   setPlayerMaxHealth(200);
   setShowDamage(0);
@@ -27,4 +29,5 @@ export const handleRestart = (
   setGameMessage(
     `A wild ${currentMonster.name} appeared in front of you! \nGet your weapons ready!`
   );
+  setIsFirstRound(true);
 };

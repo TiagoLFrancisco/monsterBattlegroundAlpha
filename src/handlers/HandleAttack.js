@@ -1,3 +1,5 @@
+import { monsters } from "../components/MonstersList";
+
 export const handleAttack = (
   playerMaxHealth,
   setPlayerMaxHealth,
@@ -20,10 +22,11 @@ export const handleAttack = (
   setOveralDefeatedMonsters,
   setCombatLog,
   setGameMessage,
-  monsters,
-  handleRestart
+  handleRestart,
+  setIsFirstRound
 ) => {
   setShowDamage(true);
+  setIsFirstRound(false);
 
   const calculateDamageFromPlayer = () => {
     const damageFromPlayer = Math.floor(Math.random() * 10) + 1;
@@ -88,8 +91,8 @@ export const handleAttack = (
     setDefeatedMonsters,
     setCombatLog,
     setGameMessage,
-    monsters,
-    handleRestart
+    handleRestart,
+    setIsFirstRound
   ) => {
     setShowDamage(false);
     setPlayerDefeats(playerDefeats + 1);
@@ -111,7 +114,7 @@ export const handleAttack = (
       setDefeatedMonsters,
       setCombatLog,
       setGameMessage,
-      monsters
+      setIsFirstRound
     );
   };
 
@@ -160,8 +163,8 @@ export const handleAttack = (
       setDefeatedMonsters,
       setCombatLog,
       setGameMessage,
-      monsters,
-      handleRestart
+      handleRestart,
+      setIsFirstRound
     );
   } else {
     handleNonDefeatScenario(

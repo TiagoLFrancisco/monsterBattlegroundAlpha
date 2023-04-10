@@ -22,10 +22,18 @@ function App() {
   const [gameMessage, setGameMessage] = useState(
     `A wild ${currentMonster.name} appeared in front of you! \nGet your weapons ready!`
   );
+  const [isFirstRound, setIsFirstRound] = useState(true);
 
   useEffect(() => {
-    const logEntry = gameMessage;
-    setCombatLog([...combatLog, logEntry]);
+    if (isFirstRound === true) {
+      setCombatLog([]);
+      setGameMessage(
+        `A wild ${monsters[0].name} appeared in front of you! \nGet your weapons ready!`
+      );
+    } else {
+      const logEntry = gameMessage;
+      setCombatLog([...combatLog, logEntry]);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameMessage]);
 
@@ -56,7 +64,7 @@ function App() {
             {showDamage ? (
               <p>Attack Damage: {monsterDamage}</p>
             ) : (
-              <p>This Monster has not attacked you yet!</p>
+              <p>The {currentMonster.name} is ready to attack you!</p>
             )}
           </div>
           <h1 className="versus">VS</h1>
@@ -67,7 +75,7 @@ function App() {
             {showDamage ? (
               <p>Attack Damage: {playerDamage}</p>
             ) : (
-              <p>You have not attacked this Monster yet!</p>
+              <p>Your are ready to attack the {currentMonster.name}!</p>
             )}
           </div>
         </div>
@@ -101,8 +109,8 @@ function App() {
               setOveralDefeatedMonsters,
               setCombatLog,
               setGameMessage,
-              monsters,
-              handleRestart
+              handleRestart,
+              setIsFirstRound
             )
           }
         >
@@ -120,20 +128,20 @@ function App() {
           className="button"
           onClick={() =>
             handleRestart(
+              playerMaxHealth,
               setPlayerMaxHealth,
-              setShowDamage,
               setPlayerHealth,
               setPlayerDamage,
               setPlayerLevel,
+              currentMonster,
               setCurrentMonster,
               setMonsterHealth,
               setMonsterDamage,
+              setShowDamage,
               setDefeatedMonsters,
               setCombatLog,
               setGameMessage,
-              playerMaxHealth,
-              monsters,
-              currentMonster
+              setIsFirstRound
             )
           }
         >
