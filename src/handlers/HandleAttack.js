@@ -1,6 +1,4 @@
-import { monsters } from "../components/MonstersList";
-
-export const handleAttack = (
+export const handleAttack = ({
   playerMaxHealth,
   setPlayerMaxHealth,
   playerHealth,
@@ -23,13 +21,21 @@ export const handleAttack = (
   setCombatLog,
   setGameMessage,
   handleRestart,
-  setIsFirstRound
-) => {
+  setIsFirstRound,
+  setShowSelection,
+  setHeroClass,
+  playerLevel,
+  setIsButtonDisabled,
+  monsters,
+  setWasAttackButtonPressed,
+}) => {
   setShowDamage(true);
   setIsFirstRound(false);
+  setWasAttackButtonPressed(true);
 
   const calculateDamageFromPlayer = () => {
-    const damageFromPlayer = Math.floor(Math.random() * 10) + 1;
+    const damageFromPlayer =
+      Math.floor(Math.random() * 10 + 2 * playerLevel) + 1;
     setMonsterHealth(monsterHealth - damageFromPlayer);
     setPlayerDamage(damageFromPlayer);
     return damageFromPlayer;
@@ -52,20 +58,7 @@ export const handleAttack = (
     setMonsterHealth(monsters[nextMonsterIndex].health);
   };
 
-  const handleMonsterDefeat = (
-    playerDamage,
-    currentMonster,
-    setShowDamage,
-    defeatedMonsters,
-    setDefeatedMonsters,
-    overalDefeatedMonsters,
-    setOveralDefeatedMonsters,
-    setGameMessage,
-    chooseNextMonster,
-    setCurrentMonster,
-    setMonsterHealth,
-    monsters
-  ) => {
+  const handleMonsterDefeat = () => {
     setDefeatedMonsters(defeatedMonsters + 1);
     setOveralDefeatedMonsters(overalDefeatedMonsters + 1);
     setShowDamage(false);
@@ -75,32 +68,14 @@ export const handleAttack = (
     chooseNextMonster(setCurrentMonster, setMonsterHealth, monsters);
   };
 
-  const handlePlayerDefeat = (
-    playerMaxHealth,
-    setPlayerMaxHealth,
-    setPlayerHealth,
-    setPlayerDamage,
-    setPlayerLevel,
-    playerDefeats,
-    setPlayerDefeats,
-    currentMonster,
-    setCurrentMonster,
-    setMonsterHealth,
-    setMonsterDamage,
-    setShowDamage,
-    setDefeatedMonsters,
-    setCombatLog,
-    setGameMessage,
-    handleRestart,
-    setIsFirstRound
-  ) => {
+  const handlePlayerDefeat = () => {
     setShowDamage(false);
     setPlayerDefeats(playerDefeats + 1);
     setGameMessage(
       `You were defeated by the ${currentMonster.name}! GAME OVER !\n \n`
     );
 
-    handleRestart(
+    handleRestart({
       playerMaxHealth,
       setPlayerMaxHealth,
       setPlayerHealth,
@@ -111,20 +86,19 @@ export const handleAttack = (
       setMonsterHealth,
       setMonsterDamage,
       setShowDamage,
-      setDefeatedMonsters,
       setCombatLog,
       setGameMessage,
-      setIsFirstRound
-    );
+      setIsFirstRound,
+      setHeroClass,
+      setShowSelection,
+      setIsButtonDisabled,
+      setDefeatedMonsters,
+      monsters,
+      setWasAttackButtonPressed,
+    });
   };
 
-  const handleNonDefeatScenario = (
-    currentMonster,
-    setShowDamage,
-    setGameMessage,
-    damageFromPlayer,
-    damageFromMonster
-  ) => {
+  const handleNonDefeatScenario = () => {
     setShowDamage(true);
     setGameMessage(
       `You attacked the ${currentMonster.name} and dealt ${damageFromPlayer} attack damage. \nThe ${currentMonster.name} attacked back and dealt ${damageFromMonster} attack damage to you.`
@@ -132,47 +106,10 @@ export const handleAttack = (
   };
 
   if (monsterHealth - damageFromPlayer <= 0) {
-    handleMonsterDefeat(
-      playerDamage,
-      currentMonster,
-      setShowDamage,
-      defeatedMonsters,
-      setDefeatedMonsters,
-      overalDefeatedMonsters,
-      setOveralDefeatedMonsters,
-      setGameMessage,
-      chooseNextMonster,
-      setCurrentMonster,
-      setMonsterHealth,
-      monsters
-    );
+    handleMonsterDefeat();
   } else if (playerHealth - damageFromMonster <= 0) {
-    handlePlayerDefeat(
-      playerMaxHealth,
-      setPlayerMaxHealth,
-      setPlayerHealth,
-      setPlayerDamage,
-      setPlayerLevel,
-      playerDefeats,
-      setPlayerDefeats,
-      currentMonster,
-      setCurrentMonster,
-      setMonsterHealth,
-      setMonsterDamage,
-      setShowDamage,
-      setDefeatedMonsters,
-      setCombatLog,
-      setGameMessage,
-      handleRestart,
-      setIsFirstRound
-    );
+    handlePlayerDefeat();
   } else {
-    handleNonDefeatScenario(
-      currentMonster,
-      setShowDamage,
-      setGameMessage,
-      damageFromPlayer,
-      damageFromMonster
-    );
+    handleNonDefeatScenario();
   }
 };

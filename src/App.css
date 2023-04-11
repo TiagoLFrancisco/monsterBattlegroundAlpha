@@ -61,3 +61,16 @@
 .statistics {
   margin-top: 100px;
 }
+
+.hero-chooser-menu {
+  margin-bottom: 60px;
+  margin-top: 10px;
+}
+
+.select-hero-class-button {
+  margin-top: 28px;
+}
+
+.select-hero-class-dropdown {
+  margin-top: 28px;
+}

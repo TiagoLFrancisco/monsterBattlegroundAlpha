@@ -8,7 +8,7 @@ export const monsters = [
   { name: "Giant Spider", level: 1, health: 25, damage: 5 },
   { name: "Bandit", level: 1, health: 27, damage: 4 },
   { name: "Gnoll", level: 1, health: 22, damage: 4 },
-  { name: "Giant Crab", level: 1, health: 18, damage: 3 },
+  { name: "Giant Crab", level: 1, health: 28, damage: 3 },
   { name: "Troll", level: 2, health: 40, damage: 8 },
   { name: "Harpy", level: 2, health: 35, damage: 7 },
   { name: "Minotaur", level: 3, health: 50, damage: 10 },

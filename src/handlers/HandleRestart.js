@@ -1,6 +1,4 @@
-import { monsters } from "../components/MonstersList";
-
-export const handleRestart = (
+export const handleRestart = ({
   playerMaxHealth,
   setPlayerMaxHealth,
   setPlayerHealth,
@@ -11,23 +9,32 @@ export const handleRestart = (
   setMonsterHealth,
   setMonsterDamage,
   setShowDamage,
-  setDefeatedMonsters,
   setCombatLog,
   setGameMessage,
-  setIsFirstRound
-) => {
+  setIsFirstRound,
+  setHeroClass,
+  setShowSelection,
+  setIsButtonDisabled,
+  setDefeatedMonsters,
+  monsters,
+  setWasAttackButtonPressed,
+}) => {
   setPlayerMaxHealth(200);
-  setShowDamage(0);
   setPlayerHealth(playerMaxHealth);
   setPlayerDamage(0);
   setPlayerLevel(1);
   setCurrentMonster(monsters[0]);
   setMonsterHealth(monsters[0].health);
   setMonsterDamage(0);
-  setDefeatedMonsters(0);
+  setShowDamage(false);
   setCombatLog([]);
   setGameMessage(
     `A wild ${currentMonster.name} appeared in front of you! \nGet your weapons ready!`
   );
   setIsFirstRound(true);
+  setHeroClass("");
+  setShowSelection(false);
+  setIsButtonDisabled(false);
+  setDefeatedMonsters(0);
+  setWasAttackButtonPressed(false);
 };
