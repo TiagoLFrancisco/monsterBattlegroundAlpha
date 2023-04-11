@@ -57,7 +57,7 @@ function App() {
   useEffect(() => {
     if (defeatedMonsters % 5 === 0 && defeatedMonsters !== 0) {
       setPlayerLevel(playerLevel + 1);
-      const healingAmount = Math.floor(Math.random() * 30) + 20;
+      const healingAmount = Math.floor(Math.random() * 80) + 20;
       const newHealth = playerHealth + healingAmount;
       setPlayerHealth(newHealth);
       setGameMessage(
